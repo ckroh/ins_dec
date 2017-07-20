@@ -47,13 +47,17 @@ void id_setPlatform(ins_decAPI* id, const char* desc){
 	cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
 }
 
-void id_decodeInstruction(ins_decAPI* id, unsigned char *code){
-	size_t size = sizeof(code)-3;
+void id_decodeInstruction(ins_decAPI* id, char *code){
+	size_t size = sizeof(code);
 	size_t count;
-	uint64_t address = 0x1000;
+	uint64_t address = 0x0;
+	if(id->id_insn_count>0) free(id->id_insn);
+	
+	
+		
 	cs_insn *insn;
-	printf("code has %lu bytes\n", size);
-	count = cs_disasm(handle, code, size, address, 0, &insn);
+/*	printf("code has %lu bytes\n", size);*/
+	count = cs_disasm(handle, code, sizeof(code)-1, address, 0, &insn);
 	id->id_insn_count = count;
 
 	if (count) {
@@ -81,10 +85,15 @@ void id_decodeInstruction(ins_decAPI* id, unsigned char *code){
 		printf("****************\n");
 		printf("Platform: %s\n", id->platform.comment);
 		printf("ERROR: Failed to disasm given code!\n");
-		print_string_hex("CODE: ", code, size);
-/*		abort();*/
+		print_string_hex("CODE: \t\t", code, sizeof(code));
+
 	}
+}
+
+void ins_dec_free(ins_decAPI* id){
+	
 	cs_close(&handle);
+	free(id);
 }
 
 void print_string_hex(char *comment, unsigned char *str, size_t len)
@@ -98,6 +107,20 @@ void print_string_hex(char *comment, unsigned char *str, size_t len)
 
 	printf("\n");
 }
+
+int bin2str(const char *in, int len, char *out) {
+	int i, idx;
+	char tmp[5];
+	if (len < 0)
+		return 0;
+	for (idx = i = 0; i < len; i++, idx += 2)  {
+		snprintf (tmp, sizeof (tmp), "%02x", in[i]);
+		memcpy (out+idx, tmp, 2);
+	}
+	out[idx] = 0;
+	return len;
+}
+
 #ifdef __cplusplus
 }
 #endif

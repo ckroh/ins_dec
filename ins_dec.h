@@ -101,9 +101,10 @@ typedef struct ins_decAPI{
 } ins_decAPI;
 
 ins_decAPI* ins_dec_new();
+void ins_dec_free(ins_decAPI* id);
 void id_setPlatform(ins_decAPI* id, const char* desc);
-void id_decodeInstruction(ins_decAPI* id, unsigned char *code);
-
+void id_decodeInstruction(ins_decAPI* id, char *code);
+int bin2str(const char *in, int len, char *out);
 void print_string_hex(char *comment, unsigned char *str, size_t len);
 
 #ifdef __cplusplus
