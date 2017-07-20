@@ -108,18 +108,6 @@ void print_string_hex(char *comment, unsigned char *str, size_t len)
 	printf("\n");
 }
 
-int bin2str(const char *in, int len, char *out) {
-	int i, idx;
-	char tmp[5];
-	if (len < 0)
-		return 0;
-	for (idx = i = 0; i < len; i++, idx += 2)  {
-		snprintf (tmp, sizeof (tmp), "%02x", in[i]);
-		memcpy (out+idx, tmp, 2);
-	}
-	out[idx] = 0;
-	return len;
-}
 
 #ifdef __cplusplus
 }
