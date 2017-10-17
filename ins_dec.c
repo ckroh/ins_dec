@@ -13,8 +13,8 @@
 extern "C" {
 #endif
 #include "ins_dec.h"
-#include "x86.h"
-#include "arm64.h"
+#include "arch/x86.h"
+#include "arch/arm64.h"
 
 static csh handle;
 
@@ -47,34 +47,34 @@ void id_setPlatform(ins_decAPI* id, const char* desc){
 	cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
 }
 
-void id_decodeInstruction(ins_decAPI* id, char *code){
-	size_t size = sizeof(code);
+void id_decodeInstruction(ins_decAPI* id, char *code, size_t length){
+	size_t size = length;
 	size_t count;
 	uint64_t address = 0x0;
 	if(id->id_insn_count>0) free(id->id_insn);
 	
+	printf("code_size %d\n", length);
 	
 		
 	cs_insn *insn;
 /*	printf("code has %lu bytes\n", size);*/
-	count = cs_disasm(handle, code, sizeof(code)-1, address, 0, &insn);
+	count = cs_disasm(handle, code, length, address, 0, &insn);
 	id->id_insn_count = count;
 
 	if (count) {
 		id->id_insn = (id_ins_dec*) malloc(count*sizeof(id_ins_dec));
 		size_t j;
+		print_string_hex("CODE: ", code, size);
 		for (j = 0; j < count; j++) {
-		printf("insn: %s %s\n",  insn[j].mnemonic,  insn[j].op_str);
 			strcpy(id->id_insn[j].mnemonic, insn[j].mnemonic);
 			strcpy(id->id_insn[j].op_str, insn[j].op_str);
 			id->id_insn[j].ins_type = (*(id->functionPtrs->getInsTypePtr))(&(insn[j]));
-			id->id_insn[j].flags = (*(id->functionPtrs->getPrefixPtr))(&(insn[j]));
+			id->id_insn[j].prefix = (*(id->functionPtrs->getPrefixPtr))(&(insn[j]));
 			(*(id->functionPtrs->getOperandsPtr))(	&(insn[j]), 
 								&(id->id_insn[j].ops), 
 								&(id->id_insn[j].op_count));
 	
 		}
-		print_string_hex("CODE: ", code, size);
 		// free memory allocated by cs_disasm()
 		cs_free(insn, count);
 	} else {
@@ -82,6 +82,7 @@ void id_decodeInstruction(ins_decAPI* id, char *code){
 		id->id_insn_count = 1;
 		strcpy(id->id_insn[0].mnemonic, "fail");
 		strcpy(id->id_insn[0].op_str, "fail");
+		id->id_insn[0].ins_type=TYPE_OTHER;
 		printf("****************\n");
 		printf("Platform: %s\n", id->platform.comment);
 		printf("ERROR: Failed to disasm given code!\n");

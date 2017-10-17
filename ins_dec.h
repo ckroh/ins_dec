@@ -9,7 +9,6 @@
 extern "C" {
 #endif
 typedef enum id_ins_type {
-	// 
 	TYPE_ADD,
 	TYPE_SUB,
 	TYPE_MUL,
@@ -26,7 +25,7 @@ typedef enum id_ins_type {
 	TYPE_MOVE, 
 	TYPE_CONTROLFLOW, //(CALL, RET, JUMP, SYSCALL) = CS_GRP_RET, CS_GRP_CALL, CS_GRP_JUMP, CS_GRP_INT, CS_GRP_IRET
 	TYPE_NOP, 
-	TYPE_OTHER // CS_GRP_PRIVILEGE
+	TYPE_OTHER = 20 // CS_GRP_PRIVILEGE 
 } id_ins_type;
 
 typedef enum id_datatype {
@@ -34,6 +33,7 @@ typedef enum id_datatype {
 	DATA_UNSIGNED,
 	DATA_FLOAT,
 	DATA_DECIMAL,
+	DATA_UNKNOWN
 } id_datatype;
 
 typedef enum id_register_type{
@@ -64,7 +64,7 @@ typedef struct id_ins_dec{
 	char 			mnemonic[160];
 	char 			op_str[160];
 	id_ins_type 		ins_type;
-	unsigned int 		flags : 4;
+	unsigned int 		prefix : 4;
 	uint8_t 		op_count;
 	id_ins_operand 		*ops; //capstone uses space for up to 32 registers/operands
 	
@@ -103,7 +103,7 @@ typedef struct ins_decAPI{
 ins_decAPI* ins_dec_new();
 void ins_dec_free(ins_decAPI* id);
 void id_setPlatform(ins_decAPI* id, const char* desc);
-void id_decodeInstruction(ins_decAPI* id, char *code);
+void id_decodeInstruction(ins_decAPI* id, char *code, size_t length);
 int bin2str(const char *in, int len, char *out);
 void print_string_hex(char *comment, unsigned char *str, size_t len);
 

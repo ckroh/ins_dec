@@ -9,7 +9,7 @@ extern "C" {
 #include <capstone/platform.h>
 #include <capstone/capstone.h>
 
-#include "ins_dec.h"
+#include "../ins_dec.h"
 
 id_platform arm64_platform = {CS_ARCH_ARM, CS_MODE_64, "ARM64", CS_OPT_DETAIL, CS_OPT_ON};
 
