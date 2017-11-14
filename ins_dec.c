@@ -53,7 +53,7 @@ void id_decodeInstruction(ins_decAPI* id, char *code, size_t length){
 	uint64_t address = 0x0;
 	if(id->id_insn_count>0) free(id->id_insn);
 	
-	printf("code_size %d\n", length);
+	printf("code_size %lu\n", length);
 	
 		
 	cs_insn *insn;

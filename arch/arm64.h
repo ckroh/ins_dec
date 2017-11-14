@@ -252,7 +252,7 @@ void getARM64Operands(cs_insn *ins, id_ins_operand** ops, uint8_t* op_count){
 	(*ops) = (id_ins_operand*) malloc(sizeof(id_ins_operand) * arm64->op_count);
 	for(int i = 0; i<arm64->op_count; i++){
 //		TODO: get datatype and element_width
-		(*ops)[i]=(id_ins_operand) {	DATA_SIGNED, 				//set operand data type	
+		(*ops)[i]=(id_ins_operand) {
 						0, 			//set number of elements
 						arm64->operands[i].vess, 					//set element width? -> vector
 						arm64->operands[i].access, 		//acess: READ,WRITE,READ_WRITE

@@ -28,13 +28,6 @@ typedef enum id_ins_type {
 	TYPE_OTHER = 20 // CS_GRP_PRIVILEGE 
 } id_ins_type;
 
-typedef enum id_datatype {
-	DATA_SIGNED,
-	DATA_UNSIGNED,
-	DATA_FLOAT,
-	DATA_DECIMAL,
-	DATA_UNKNOWN
-} id_datatype;
 
 typedef enum id_register_type{
 	REG_GPR,
@@ -51,7 +44,6 @@ typedef enum id_op_type {
 } id_op_type;
 
 typedef struct id_ins_operand{
-	id_datatype 		datatype;
 	unsigned int 		number_elements : 1; 
 	unsigned int 		element_width : 4; //in bytes
 	unsigned int 		load_store : 2;

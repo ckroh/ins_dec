@@ -825,6 +825,7 @@ id_register_type getX86RegType(cs_x86_op* op){
 	return REG_OTHER;
 }
 
+
 void getX86Operands(cs_insn *ins, id_ins_operand** ops, uint8_t* op_count){
 	cs_x86 *x86; 
 	
@@ -833,7 +834,7 @@ void getX86Operands(cs_insn *ins, id_ins_operand** ops, uint8_t* op_count){
 	(*ops) = (id_ins_operand*) malloc(sizeof(id_ins_operand) * x86->op_count);
 	for(int i = 0; i<x86->op_count; i++){
 //		TODO: get datatype and element_width
-		(*ops)[i]=(id_ins_operand) {	DATA_UNKNOWN, 				//set operand data type	
+		(*ops)[i]=(id_ins_operand) {
 						0, 			//set number of elements
 						x86->operands[i].size, 					//set element width? -> vector
 						x86->operands[i].access, 		//acess: READ,WRITE,READ_WRITE
