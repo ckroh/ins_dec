@@ -9,6 +9,7 @@
 extern "C" {
 #endif
 typedef enum id_ins_type {
+	TYPE_OTHER,
 	TYPE_ADD,
 	TYPE_SUB,
 	TYPE_MUL,
@@ -25,16 +26,23 @@ typedef enum id_ins_type {
 	TYPE_MOVE, 
 	TYPE_CONTROLFLOW, //(CALL, RET, JUMP, SYSCALL) = CS_GRP_RET, CS_GRP_CALL, CS_GRP_JUMP, CS_GRP_INT, CS_GRP_IRET
 	TYPE_NOP, 
-	TYPE_OTHER = 20 // CS_GRP_PRIVILEGE 
 } id_ins_type;
 
 
 typedef enum id_register_type{
+	REG_OTHER,
 	REG_GPR,
 	REG_FLOAT,
 	REG_VECTOR,
-	REG_OTHER,
 } id_register_type;
+
+typedef enum id_datatype {
+	DATA_UNKNOWN,
+	DATA_SIGNED,
+	DATA_UNSIGNED,
+	DATA_FLOAT,
+	DATA_DECIMAL
+} id_datatype;
 
 typedef enum id_op_type {
 	OP_OTHER = 0, // = CS_OP_INVALID (Uninitialized).
@@ -44,10 +52,11 @@ typedef enum id_op_type {
 } id_op_type;
 
 typedef struct id_ins_operand{
+	id_datatype 		datatype;
 	unsigned int 		number_elements : 1; 
-	unsigned int 		element_width : 4; //in bytes
+	unsigned int 		element_width : 4; //in bytes byte-breite einzelner Elemente
 	unsigned int 		load_store : 2;
-	id_op_type 		type;
+	id_op_type 			type;
 	id_register_type 	register_type;
 	
 } id_ins_operand;
@@ -55,12 +64,11 @@ typedef struct id_ins_operand{
 typedef struct id_ins_dec{
 	char 			mnemonic[160];
 	char 			op_str[160];
-	id_ins_type 		ins_type;
-	unsigned int 		prefix : 4;
+	id_ins_type 	ins_type;
+	unsigned int 	prefix : 4;
 	uint8_t 		op_count;
-	id_ins_operand 		*ops; //capstone uses space for up to 32 registers/operands
+	id_ins_operand 	*ops; //capstone uses space for up to 32 registers/operands
 	
-
 } id_ins_dec;
 
 
