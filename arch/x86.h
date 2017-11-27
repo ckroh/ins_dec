@@ -68,6 +68,40 @@ x86_reg x86_vector[] =
 
 };
 
+x86_reg x86_reg_width_8[] = {X86_REG_AH, X86_REG_AL,X86_REG_BH, X86_REG_BL,X86_REG_CH, X86_REG_CL,X86_REG_DL,X86_REG_DH};
+x86_reg x86_reg_width_16[] = {X86_REG_AX, X86_REG_CX, X86_REG_DX, X86_REG_BX,
+X86_REG_SP, X86_REG_BP, X86_REG_SI, X86_REG_DI};
+x86_reg x86_reg_width_32[] = {X86_REG_EAX, X86_REG_ECX, X86_REG_EDX, X86_REG_EBX, X86_REG_ESP, X86_REG_EBP, X86_REG_ESI, X86_REG_EDI};
+x86_reg x86_reg_width_64[] = {X86_REG_RAX, X86_REG_RCX, X86_REG_RDX, 	
+	X86_REG_RBX, X86_REG_RBP, X86_REG_RSI, X86_REG_RDI,  X86_REG_MM0, 	X86_REG_MM1,
+	X86_REG_MM2, X86_REG_MM3, X86_REG_MM4, X86_REG_MM5, X86_REG_MM6,
+	X86_REG_MM7, X86_REG_R8, X86_REG_R9, X86_REG_R10, X86_REG_R11,
+	X86_REG_R12, X86_REG_R13, X86_REG_R14, X86_REG_R15};
+x86_reg x86_reg_width_80[] = {X86_REG_ST0, X86_REG_ST1, X86_REG_ST2, X86_REG_ST3,
+	X86_REG_ST4, X86_REG_ST5, X86_REG_ST6, X86_REG_ST7};
+x86_reg x86_reg_width_128[] = {X86_REG_XMM0, X86_REG_XMM1, X86_REG_XMM2, X86_REG_XMM3, X86_REG_XMM4,
+	X86_REG_XMM5, X86_REG_XMM6, X86_REG_XMM7, X86_REG_XMM8, X86_REG_XMM9,
+	X86_REG_XMM10, X86_REG_XMM11, X86_REG_XMM12, X86_REG_XMM13, X86_REG_XMM14,
+	X86_REG_XMM15, X86_REG_XMM16, X86_REG_XMM17, X86_REG_XMM18, X86_REG_XMM19,
+	X86_REG_XMM20, X86_REG_XMM21, X86_REG_XMM22, X86_REG_XMM23, X86_REG_XMM24,
+	X86_REG_XMM25, X86_REG_XMM26, X86_REG_XMM27, X86_REG_XMM28, X86_REG_XMM29,
+	X86_REG_XMM30, X86_REG_XMM31};
+x86_reg x86_reg_width_256[] = {X86_REG_YMM0, X86_REG_YMM1, X86_REG_YMM2,
+	X86_REG_YMM3, X86_REG_YMM4, X86_REG_YMM5, X86_REG_YMM6, X86_REG_YMM7,
+	X86_REG_YMM8, X86_REG_YMM9, X86_REG_YMM10, X86_REG_YMM11, X86_REG_YMM12,
+	X86_REG_YMM13, X86_REG_YMM14, X86_REG_YMM15, X86_REG_YMM16, X86_REG_YMM17,
+	X86_REG_YMM18, X86_REG_YMM19, X86_REG_YMM20, X86_REG_YMM21, X86_REG_YMM22,
+	X86_REG_YMM23, X86_REG_YMM24, X86_REG_YMM25, X86_REG_YMM26, X86_REG_YMM27,
+	X86_REG_YMM28, X86_REG_YMM29, X86_REG_YMM30, X86_REG_YMM31,};
+x86_reg x86_reg_width_512[] = {X86_REG_ZMM0, X86_REG_ZMM1, X86_REG_ZMM2, X86_REG_ZMM3, X86_REG_ZMM4, X86_REG_ZMM5,
+	X86_REG_ZMM6, X86_REG_ZMM7, X86_REG_ZMM8, X86_REG_ZMM9, X86_REG_ZMM10,
+	X86_REG_ZMM11, X86_REG_ZMM12, X86_REG_ZMM13, X86_REG_ZMM14, X86_REG_ZMM15,
+	X86_REG_ZMM16, X86_REG_ZMM17, X86_REG_ZMM18, X86_REG_ZMM19, X86_REG_ZMM20,
+	X86_REG_ZMM21, X86_REG_ZMM22, X86_REG_ZMM23, X86_REG_ZMM24, X86_REG_ZMM25,
+	X86_REG_ZMM26, X86_REG_ZMM27, X86_REG_ZMM28, X86_REG_ZMM29, X86_REG_ZMM30,
+	X86_REG_ZMM31};
+x86_reg x86_reg_width_1024[] = {};
+
 x86_insn x86_add_insn[] = 
 {
 	X86_INS_ADD,
@@ -656,8 +690,7 @@ x86_insn x86_data_decimal[] =
 	X86_INS_AAS,
 	X86_INS_FBLD,
 	X86_INS_DAA,
-	X86_INS_DAS,
-	0,
+	X86_INS_DAS
 };
 
 
@@ -789,7 +822,7 @@ id_ins_type getX86InsType(cs_insn *ins){
 
 
 
-id_op_type getX86OpType(cs_x86_op* op){
+id_op_type getX86OpType(cs_x86_op *op){
 	switch((int)op->type) {
 			case X86_OP_REG:
 				return OP_REG;
@@ -806,7 +839,29 @@ id_op_type getX86OpType(cs_x86_op* op){
 		}
 }
 
-id_register_type getX86RegType(cs_x86_op* op){
+id_datatype getX86DataType(cs_insn *ins){
+	unsigned int i;
+	
+	for (i = 0; i < sizeof(x86_data_unsigned)/sizeof(x86_data_unsigned[0]); i++) {
+		if(x86_data_unsigned[i] == ins->id)
+			return DATA_UNSIGNED;
+	}
+	for (i = 0; i < sizeof(x86_data_signed)/sizeof(x86_data_signed[0]); i++) {
+		if(x86_data_signed[i] == ins->id)
+			return DATA_SIGNED;
+	}
+	for (i = 0; i < sizeof(x86_data_float)/sizeof(x86_data_float[0]); i++) {
+		if(x86_data_float[i] == ins->id)
+			return DATA_FLOAT;
+	}
+	for (i = 0; i < sizeof(x86_data_decimal)/sizeof(x86_data_decimal[0]); i++) {
+		if(x86_data_decimal[i] == ins->id)
+			return DATA_DECIMAL;
+	}
+	return DATA_UNKNOWN;
+}
+
+id_register_type getX86RegType(cs_x86_op *op){
 	unsigned int i;
 	if(getX86OpType(op)==OP_IMM || getX86OpType(op)==OP_MEM || getX86OpType(op)==OP_OTHER) return REG_OTHER;
 	
@@ -835,7 +890,7 @@ void getX86Operands(cs_insn *ins, id_ins_operand** ops, uint8_t* op_count){
 	for(int i = 0; i<x86->op_count; i++){
 //		TODO: get datatype and element_width
 		(*ops)[i]=(id_ins_operand) {
-						DATA_SIGNED,
+						getX86DataType(ins),
 						0, 			//set number of elements
 						x86->operands[i].size, 					//set element width? -> vector
 						x86->operands[i].access, 		//acess: READ,WRITE,READ_WRITE
