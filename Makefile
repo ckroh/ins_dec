@@ -22,6 +22,7 @@ ins_dec_bin.o: ins_dec_bin.c
 	
 clean:
 	rm -f ins_dec
+	rm -f ins_dec_bin
 	rm -f ./*.o
 	rm -f ./*.so
 	rm -f *.bak *~  # emacs erzeugt *~ als Sicherheitskopie

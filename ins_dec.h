@@ -54,7 +54,7 @@ typedef enum id_op_type {
 typedef struct id_ins_operand{
 	id_datatype 		datatype;
 	unsigned int 		number_elements : 1; 
-	unsigned int 		element_width : 4; //in bytes byte-breite einzelner Elemente
+	uint8_t 			element_width; //in bytes byte-breite einzelner Elemente
 	unsigned int 		load_store : 2;
 	id_op_type 			type;
 	id_register_type 	register_type;
@@ -80,22 +80,20 @@ typedef struct id_arch_functions{
 } id_arch_functions;
 
 
-
-
 typedef struct id_platform {
 	cs_arch 		arch;
 	cs_mode 		mode;
 	//unsigned char *code;
 //	size_t 			size;
 	const char 		*comment;
-	cs_opt_type 		opt_type;
-	cs_opt_value 		opt_value;
+	cs_opt_type 	opt_type;
+	cs_opt_value 	opt_value;
 } id_platform;
 
 
 typedef struct ins_decAPI{
 	id_arch_functions 	*functionPtrs;
-	id_ins_dec 		*id_insn;
+	id_ins_dec 			*id_insn;
 	unsigned int 		id_insn_count;
 	id_platform 		platform;
 } ins_decAPI;
